@@ -1,0 +1,15 @@
+[wechat]
+appID = ""
+appsecret = ""
+templateID = ""
+#userIDs = "oNeH46Z4Z_G7ZvclKiBtlDFxWOYs"
+userIDs = ""
+
+[information]
+weatherkey = "" # 和风天气apikey
+location = "101190401"  # 苏州
+locationcn = "苏州"  # 苏州
+birthday = "2022-01-08" # 生日1，修改名字为对应需要显示的名字，如果生日为农历，在最前面加上r即可
+lovedate = "2022-08-25" #恋爱纪念日
+constellation = "" #星座
+tianapikey = ""
