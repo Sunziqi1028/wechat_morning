@@ -22,3 +22,25 @@ type LoveResponse struct {
 type LoveNewList struct {
 	Content string `json:"content"`
 }
+
+type NewsListFighting struct {
+	Code     int        `json:"code"`
+	Msg      string     `json:"msg"`
+	Fighting []Fighting `json:"newslist"`
+}
+type Fighting struct {
+	Saying string
+	Transl string
+	Source string
+}
+
+type Constellation struct {
+	Code      int          `json:"code"`
+	Msg       string       `json:"msg"`
+	NewsLists []ListCommon `json:"newslist"`
+}
+
+type ListCommon struct {
+	Type    string `json:"type"`
+	Content string `json:"content"`
+}

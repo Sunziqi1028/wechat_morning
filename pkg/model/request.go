@@ -16,15 +16,21 @@ type Request struct {
 }
 
 type Data struct {
-	Date      Date      `json:"date"`
-	Region    Region    `json:"region"`
-	Weather   Weather   `json:"weather"`
-	Temp      Temp      `json:"temp"`
-	WindDir   WindDir   `json:"wind_dir"`
-	LoveDay   LoveDay   `json:"love_day"`
-	Birthday  Birthday  `json:"birthday"`
-	Morning   Morning   `json:"morning"`
+	Date     Date     `json:"date"`
+	Region   Region   `json:"region"`
+	Weather  Weather  `json:"weather"`
+	Temp     Temp     `json:"temp"`
+	WindDir  WindDir  `json:"wind_dir"`
+	LoveDay  LoveDay  `json:"love_day"`
+	Birthday Birthday `json:"birthday"`
+	//Morning   Morning   `json:"morning"`
 	FeelsLike FeelsLike `json:"feelslike"`
+	Saying    Saying    `json:"saying"`
+	Transl    Transl    `json:"transl"`
+	Source    Source    `json:"source"`
+	Color     Color     `json:"color"`
+	Num       Num       `json:"num"`
+	Overview  Overview  `json:"overview"`
 }
 
 type Date struct {
@@ -68,6 +74,36 @@ type Morning struct {
 }
 
 type FeelsLike struct {
+	Value string `json:"value"`
+	Color string `json:"color"`
+}
+
+type Saying struct {
+	Value string `json:"value"`
+	Color string `json:"color"`
+}
+
+type Transl struct {
+	Value string `json:"value"`
+	Color string `json:"color"`
+}
+
+type Source struct {
+	Value string `json:"value"`
+	Color string `json:"color"`
+}
+
+type Color struct {
+	Value string `json:"value"`
+	Color string `json:"color"`
+}
+
+type Num struct {
+	Value string `json:"value"`
+	Color string `json:"color"`
+}
+
+type Overview struct {
 	Value string `json:"value"`
 	Color string `json:"color"`
 }

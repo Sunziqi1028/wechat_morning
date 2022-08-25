@@ -63,15 +63,12 @@ func GetWeather(weatherKey, localtion string) (weather, temp, feelsLike, windDir
 	temp = gojsonq.New().FromString(string(body)).Find("now.temp").(string)           // 温度
 	feelsLike = gojsonq.New().FromString(string(body)).Find("now.feelsLike").(string) // 体感温度
 	windDir = gojsonq.New().FromString(string(body)).Find("now.windDir").(string)     // 风向
-	//windSpeed = gojsonq.New().FromString(string(body)).Find("now.windSpeed").(string) // 风速
-	//windScale = gojsonq.New().FromString(string(body)).Find("now.windScale").(string) // 风力等级
 
 	return weather, temp, feelsLike, windDir
 }
 
-func GetConstellation(key, constellation string) {
-	// http://api.tianapi.com/caihongpi/index
-	url := fmt.Sprintf("http://api.tianapi.com/caihongpi/index?key=%s", key)
+func GetFighting(key string) model.Fighting {
+	url := fmt.Sprintf("http://api.tianapi.com/lzmy/index?key=%s", key)
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
@@ -81,9 +78,34 @@ func GetConstellation(key, constellation string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	feelsLike := gojsonq.New().FromString(string(body)).Find("newslist.content") // 体感温度
 	fmt.Println(string(body))
-	fmt.Println(feelsLike)
+	var fightingList model.NewsListFighting
+	err = json.Unmarshal(body, &fightingList)
+	fmt.Println(fightingList.Fighting)
+
+	return fightingList.Fighting[0]
+}
+func GetConstellation(key, constellation string) (model.ListCommon, model.ListCommon, model.ListCommon) {
+	url := fmt.Sprintf("http://api.tianapi.com/star/index?key=%s&astro=%s", key, constellation)
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+	var constellationResp model.Constellation
+	var respList []model.ListCommon
+	json.Unmarshal(body, &constellationResp)
+	for _, v := range constellationResp.NewsLists {
+		if v.Type == "幸运颜色" || v.Type == "幸运数字" || v.Type == "今日概述" {
+			respList = append(respList, v)
+		}
+	}
+	fmt.Println(respList[0], respList[1], respList[2])
+	return respList[0], respList[1], respList[2]
 }
 
 func GetLove(key string) string {
@@ -99,6 +121,9 @@ func GetLove(key string) string {
 	}
 	var love model.LoveResponse
 	err = json.Unmarshal(body, &love)
+	if err != nil {
+		fmt.Println(err)
+	}
 	var loveContent []string
 	for _, v := range love.Newslist {
 		loveContent = append(loveContent, v.Content)
@@ -106,7 +131,7 @@ func GetLove(key string) string {
 	return loveContent[0]
 }
 
-func SendMessage(accessToken, loveDate, birthday, weather, temp, feelsLike, windDir, locationCN, loveContent string) {
+func SendMessage(accessToken, loveDate, birthday, weather, temp, feelsLike, windDir, locationCN, saying, transl, source, color, num, overview string) {
 	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", accessToken)
 	tmpday := utils.GetLovedDay(loveDate, time.Now().Format("2006-01-02"))
 	day := strconv.Itoa(int(tmpday))
@@ -145,12 +170,32 @@ func SendMessage(accessToken, loveDate, birthday, weather, temp, feelsLike, wind
 				Value: birth,
 				Color: utils.RandomString(),
 			},
-			Morning: model.Morning{
-				Value: loveContent,
+			Saying: model.Saying{
+				Value: saying,
 				Color: utils.RandomString(),
 			},
 			FeelsLike: model.FeelsLike{
 				Value: feelsLike,
+				Color: utils.RandomString(),
+			},
+			Transl: model.Transl{
+				Value: transl,
+				Color: utils.RandomString(),
+			},
+			Source: model.Source{
+				Value: source,
+				Color: utils.RandomString(),
+			},
+			Color: model.Color{
+				Value: color,
+				Color: utils.RandomString(),
+			},
+			Num: model.Num{
+				Value: num,
+				Color: utils.RandomString(),
+			},
+			Overview: model.Overview{
+				Value: overview,
 				Color: utils.RandomString(),
 			},
 		},
@@ -163,5 +208,7 @@ func SendMessage(accessToken, loveDate, birthday, weather, temp, feelsLike, wind
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(body))
+	fmt.Println(time.Now(), "今日推送完成")
+
 	return
 }

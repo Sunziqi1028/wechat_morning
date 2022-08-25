@@ -1,15 +1,15 @@
 [wechat]
-appID = ""
-appsecret = ""
-templateID = ""
+appID = "wx0042918584f5c746"
+appsecret = "e7c8c86a62a86d781d8c8f7ca8aa5cac"
+templateID = "nzjTrnIUjnfTXL3tDvLXewI8OG8Yp90unYWeF78pK6o"
 #userIDs = "oNeH46Z4Z_G7ZvclKiBtlDFxWOYs"
-userIDs = ""
+userIDs = "oNeH46W3oXo0P6VVoaCa47mGPiwo"
 
 [information]
-weatherkey = "" # 和风天气apikey
+weatherkey = "bd080b868fd845c4886167339f66d578" # 和风天气apikey
 location = "101190401"  # 苏州
 locationcn = "苏州"  # 苏州
-birthday = "2022-01-08" # 生日1，修改名字为对应需要显示的名字，如果生日为农历，在最前面加上r即可
-lovedate = "2022-08-25" #恋爱纪念日
-constellation = "" #星座
-tianapikey = ""
+birthday = "1997-12-08" # 生日1，修改名字为对应需要显示的名字，如果生日为农历，在最前面加上r即可
+lovedate = "2019-12-25" #恋爱纪念日
+constellation = "射手座" #星座
+tianapikey = "3e6a397163cdd4c8eaa513db30cbe045"
